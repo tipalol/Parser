@@ -13,16 +13,24 @@ public class Parser {
     //Документ, с узлами которого ведется работа
     private Document document;
     //Конструкторы
-    public Parser(String url) throws MalformedURLException {
-        this.url = new URL(url);
+    Parser(String url) {
+        try {
+            this.url = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
     public Parser(URL url) {
         this.url = url;
     }
 
     //Начать парсинг
-    public void Parse() throws IOException {
-        document = Jsoup.parse( url, 3000 );
+    void Parse() {
+        try {
+            document = Jsoup.parse( url, 3000 );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     //Возвращает текущий документ
     public Document GetDocument() {
@@ -36,5 +44,9 @@ public class Parser {
     //возвращает первый найденный
     public Element GetElement(String queryString) {
         return document.selectFirst(queryString);
+    }
+    //Возвращает текст, содержащийся в запрошенном элементе
+    String GetText(String queryString) {
+        return document.selectFirst(queryString).text();
     }
 }
